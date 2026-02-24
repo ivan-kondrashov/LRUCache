@@ -1,5 +1,8 @@
 <Solution>
   <Project Path="LRUCache.Benchmark/LRUCache.Benchmark.csproj" />
   <Project Path="LRUCache.Core/LRUCache.Core.csproj" />
+  <Project Path="LRUCache.CrossUI/LRUCache.CrossUI.csproj">
+    <Deploy Solution="Debug|*" />
+  </Project>
   <Project Path="LRUCache.UI/LRUCache.UI.csproj" />
 </Solution>

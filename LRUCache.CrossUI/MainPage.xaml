@@ -1,0 +1,45 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.Maui;assembly=LiveChartsCore.SkiaSharpView.Maui"
+             xmlns:vm="clr-namespace:LRUCache.CrossUI.ViewModels"
+             x:Class="LRUCache.CrossUI.MainPage"
+             x:DataType="vm:MainViewModel"
+             Title="LRU Cache Benchmarks">
+
+    <Grid RowDefinitions="Auto, *, *" ColumnDefinitions="*" Padding="20">
+        
+        <HorizontalStackLayout Grid.Row="0" Spacing="10" HorizontalOptions="Center" Margin="0,0,0,20">
+            <Button Text="Select Benchmark CSV"
+                    Command="{Binding SelectFileCommand}"
+                    BackgroundColor="#512BD4"
+                    TextColor="White"/>
+        </HorizontalStackLayout>
+
+        <Grid Grid.Row="1" Margin="0,0,0,10">
+            <Border Stroke="#E0E0E0" StrokeThickness="1" Padding="10">
+                <VerticalStackLayout>
+                    <Label Text="Mean Time (ns)" HorizontalOptions="Center" FontAttributes="Bold" />
+                    <lvc:CartesianChart
+                        Series="{Binding TimeSeries}"
+                        XAxes="{Binding XAxes}"
+                        HeightRequest="300" />
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+
+        <Grid Grid.Row="2">
+            <Border Stroke="#E0E0E0" StrokeThickness="1" Padding="10">
+                <VerticalStackLayout>
+                    <Label Text="Allocated Memory (B)" HorizontalOptions="Center" FontAttributes="Bold" />
+                    <lvc:CartesianChart
+                        Series="{Binding MemorySeries}"
+                        XAxes="{Binding XAxes}"
+                        HeightRequest="300" />
+                </VerticalStackLayout>
+            </Border>
+        </Grid>
+        
+    </Grid>
+
+</ContentPage>
