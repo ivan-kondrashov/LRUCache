@@ -36,16 +36,12 @@ public class LRUCacheEngine
         }
         else
         {
-            // Check if we are at capacity before adding new
             if (_cacheMap.Count >= _capacity)
             {
-                // 1. Get the last node (Least Recently Used)
                 var lastNode = _cacheOrder.Last;
 
-                // 2. Remove from Dictionary using the stored key
                 _cacheMap.Remove(lastNode.Value.Key);
 
-                // 3. Remove from LinkedList
                 _cacheOrder.RemoveLast();
             }
 
