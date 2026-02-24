@@ -4,6 +4,7 @@ using LiveChartsCore;
 using LiveChartsCore.SkiaSharpView;
 using LRUCache.UI.Models;
 using LRUCache.UI.Services;
+using System.IO;
 
 namespace LRUCache.UI.ViewModels;
 
@@ -33,11 +34,22 @@ public partial class MainViewModel : ObservableObject
         var filePath = _dialogService.OpenFileDialog("CSV files (*.csv)|*.csv|All files (*.*)|*.*");
         if (filePath != null)
         {
-            var results = await _csvService.LoadBenchmarkDataAsync(filePath);
-            if (results.Any())
+            try
             {
-                UpdateTimeChart(results);
-                UpdateMemoryChart(results);
+                var results = await _csvService.LoadBenchmarkDataAsync(filePath);
+                if (results.Any())
+                {
+                    UpdateTimeChart(results);
+                    UpdateMemoryChart(results);
+                }
+            }
+            catch (IOException)
+            {
+                _dialogService.ShowErrorMessage($"File {filePath} is already open!");
+            }
+            catch (Exception ex)
+            {
+                _dialogService.ShowErrorMessage(ex.Message);
             }
         }
     }
