@@ -1,0 +1,35 @@
+<Window x:Class="LRUCache.UI.Views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lvc="clr-namespace:LiveChartsCore.SkiaSharpView.WPF;assembly=LiveChartsCore.SkiaSharpView.WPF"
+        xmlns:vm="clr-namespace:LRUCache.UI.ViewModels"
+        mc:Ignorable="d"
+        Title="LRU Cache Benchmark Viewer" Height="600" Width="1000">
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Button Content="Select Benchmark CSV" 
+                Command="{Binding SelectFileCommand}" 
+                Padding="10,5" HorizontalAlignment="Left" Margin="0,0,0,10"/>
+
+        <Grid Grid.Row="1">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <GroupBox Header="Time Performance (Mean ns)" Margin="5">
+                <ContentControl x:Name="TimeChartContainer"/>
+            </GroupBox>
+
+            <GroupBox Grid.Column="1" Header="Memory Performance (Allocated)" Margin="5">
+                <ContentControl x:Name="MemoryChartContainer"/>
+            </GroupBox>
+        </Grid>
+    </Grid>
+</Window>
