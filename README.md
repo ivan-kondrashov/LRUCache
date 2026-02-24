@@ -39,7 +39,7 @@ dotnet run -c Release --project .\LRUCache.Benchmark\LRUCache.Benchmark.csproj
 To visualize the results, launch the WPF application:
 
 ```powershell
-dotnet run --project .\LRUCache.UI\LRUCache.UI.csproj
+dotnet run -c Release --project .\LRUCache.UI\LRUCache.UI.csproj
 ```
 *Once launched, click **"Select Benchmark CSV"** and choose the generated CSV file.*
 
