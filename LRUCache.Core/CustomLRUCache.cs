@@ -10,7 +10,7 @@ public class CustomLRUCache
     public CustomLRUCache(int capacity)
     {
         _capacity = capacity;
-        _cache = new Dictionary<int, CustomLRUCacheNode>();
+        _cache = new Dictionary<int, CustomLRUCacheNode>(capacity);
 
         _head = new CustomLRUCacheNode(0, 0);
         _tail = new CustomLRUCacheNode(0, 0);
@@ -20,49 +20,58 @@ public class CustomLRUCache
 
     public int Get(int key)
     {
-        if (_cache.TryGetValue(key, out var node))
+        if (!_cache.TryGetValue(key, out var node))
         {
-            RemoveCustomLRUCacheNode(node);
-            AddToFront(node);
-            return node.Value;
+            return -1;
         }
-        return -1;
+
+        MoveToHead(node);
+        return node.Value;
     }
 
     public void Put(int key, int value)
     {
         if (_cache.TryGetValue(key, out var node))
         {
-            RemoveCustomLRUCacheNode(node);
             node.Value = value;
-            AddToFront(node);
+            MoveToHead(node);
         }
         else
         {
             if (_cache.Count >= _capacity)
             {
-                var lruCustomLRUCacheNode = _tail.Prev;
-                _cache.Remove(lruCustomLRUCacheNode.Key);
-                RemoveCustomLRUCacheNode(lruCustomLRUCacheNode);
+                var lru = _tail.Prev;
+                RemoveNode(lru);
+                _cache.Remove(lru.Key);
             }
 
-            var newCustomLRUCacheNode = new CustomLRUCacheNode(key, value);
-            _cache[key] = newCustomLRUCacheNode;
-            AddToFront(newCustomLRUCacheNode);
+            var newNode = new CustomLRUCacheNode(key, value);
+            AddNode(newNode);
+            _cache[key] = newNode;
         }
     }
 
-    private void RemoveCustomLRUCacheNode(CustomLRUCacheNode node)
+    private void AddNode(CustomLRUCacheNode node)
     {
-        node.Prev.Next = node.Next;
-        node.Next.Prev = node.Prev;
-    }
-
-    private void AddToFront(CustomLRUCacheNode node)
-    {
-        node.Next = _head.Next;
         node.Prev = _head;
+        node.Next = _head.Next;
+
         _head.Next.Prev = node;
         _head.Next = node;
+    }
+
+    private void RemoveNode(CustomLRUCacheNode node)
+    {
+        var prev = node.Prev;
+        var next = node.Next;
+
+        prev.Next = next;
+        next.Prev = prev;
+    }
+
+    private void MoveToHead(CustomLRUCacheNode node)
+    {
+        RemoveNode(node);
+        AddNode(node);
     }
 }
